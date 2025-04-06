@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/aycasahan/RiderProjects/SportCenter/SportCenter/SportCenter.csproj": {}
+    "/Users/omerfarukkizil/RiderProjects/SportCenter/SportCenter/SportCenter.csproj": {}
   },
   "projects": {
-    "/Users/aycasahan/RiderProjects/SportCenter/SportCenter/SportCenter.csproj": {
+    "/Users/omerfarukkizil/RiderProjects/SportCenter/SportCenter/SportCenter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/aycasahan/RiderProjects/SportCenter/SportCenter/SportCenter.csproj",
+        "projectUniqueName": "/Users/omerfarukkizil/RiderProjects/SportCenter/SportCenter/SportCenter.csproj",
         "projectName": "SportCenter",
-        "projectPath": "/Users/aycasahan/RiderProjects/SportCenter/SportCenter/SportCenter.csproj",
-        "packagesPath": "/Users/aycasahan/.nuget/packages/",
-        "outputPath": "/Users/aycasahan/RiderProjects/SportCenter/SportCenter/obj/",
+        "projectPath": "/Users/omerfarukkizil/RiderProjects/SportCenter/SportCenter/SportCenter.csproj",
+        "packagesPath": "/Users/omerfarukkizil/.nuget/packages/",
+        "outputPath": "/Users/omerfarukkizil/RiderProjects/SportCenter/SportCenter/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/aycasahan/.nuget/NuGet/NuGet.Config"
+          "/Users/omerfarukkizil/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,193 @@
+SPOR MERKEZİ YÖNETİM SİSTEMİ - PROJE ANALİZ RAPORU
+=================================================
+
+1. PROJE GENEL BAKIŞ
+--------------------
+Bu proje, bir spor merkezi yönetim sistemi olarak tasarlanmış ASP.NET Core MVC tabanlı bir web uygulamasıdır. 
+Sistem, spor merkezindeki üyelerin, antrenörlerin ve ekipmanların yönetimini sağlamaktadır.
+
+2. TEKNİK ALTYAPI
+----------------
+- Framework: ASP.NET Core MVC
+- Veritabanı: SQLite (sportcenter.db)
+- Mimari: MVC (Model-View-Controller)
+- Authentication: ASP.NET Core Identity
+
+3. PROJE YAPISI
+--------------
+3.1. Models (Entity Sınıfları)
+- Kullanici.cs: Temel kullanıcı bilgilerini içeren sınıf
+- Uye.cs: Spor merkezi üyelerinin bilgilerini tutan sınıf
+- Antrenor.cs: Antrenör bilgilerini tutan sınıf
+- SporProgrami.cs: Spor programlarının detaylarını içeren sınıf
+- ProgramKatilim.cs: Üyelerin program katılımlarını takip eden sınıf
+- Ekipman.cs: Spor merkezi ekipmanlarının bilgilerini tutan sınıf
+- EkipmanKullanim.cs: Ekipman kullanım kayıtlarını tutan sınıf
+
+3.2. Controllers
+- HomeController.cs: Ana sayfa ve genel işlemleri yöneten controller
+- AccountController.cs: Kullanıcı hesap işlemlerini yöneten controller
+- AdminController.cs: Yönetici işlemlerini yöneten ana controller
+- MemberController.cs: Üye işlemlerini yöneten controller
+- TrainerController.cs: Antrenör işlemlerini yöneten controller
+
+3.3. Views
+- Admin/: Yönetici paneli görünümleri
+- Member/: Üye paneli görünümleri
+- Trainer/: Antrenör paneli görünümleri
+- Account/: Hesap işlemleri görünümleri
+- Home/: Ana sayfa ve genel görünümler
+- Shared/: Paylaşılan layout ve partial view'lar
+
+4. TEMEL ÖZELLİKLER
+------------------
+4.1. Kullanıcı Yönetimi
+- Üye kaydı ve profil yönetimi
+- Antrenör kaydı ve profil yönetimi
+- Rol tabanlı yetkilendirme (Admin, Antrenör, Üye)
+
+4.2. Program Yönetimi
+- Spor programları oluşturma ve düzenleme
+- Program katılım takibi
+- Program-antrenör eşleştirmesi
+
+4.3. Ekipman Yönetimi
+- Ekipman envanteri takibi
+- Ekipman kullanım kayıtları
+- Bakım ve durum takibi
+
+4.4. Üye İşlemleri
+- Program kayıt ve takip
+- Antrenör seçimi
+- Ekipman kullanım kaydı
+
+4.5. Antrenör İşlemleri
+- Program oluşturma ve yönetimi
+- Üye takibi
+- Program katılım raporları
+
+5. VERİTABANI YAPISI
+-------------------
+5.1. Veritabanı Teknolojisi
+- SQLite veritabanı kullanılmaktadır (sportcenter.db)
+- Code-First yaklaşımı ile Migrations üzerinden veritabanı yönetimi
+- İlişkisel veritabanı modeli kullanılmaktadır
+
+5.2. Veritabanı Tabloları ve İlişkileri
+
+a) Kullanicilar Tablosu
+- KullaniciId (PK, int)
+- KullaniciAdi (string, required, max:50)
+- Email (string, required, max:100)
+- Sifre (string, required, max:100)
+- Ad (string, required, max:50)
+- Soyad (string, required, max:50)
+- KullaniciTipi (enum: Uye, Admin, Antrenor)
+- KayitTarihi (datetime)
+- Aktif (boolean)
+
+b) Uyeler Tablosu
+- UyeId (PK, int)
+- KullaniciId (FK -> Kullanicilar)
+- UyelikBaslangic (datetime)
+- UyelikBitis (datetime)
+- UyelikDurumu (string)
+
+c) Antrenorler Tablosu
+- AntrenorId (PK, int)
+- KullaniciId (FK -> Kullanicilar)
+- Uzmanlik (string)
+- Deneyim (int)
+- Sertifikalar (string)
+
+d) SporProgramlari Tablosu
+- ProgramId (PK, int)
+- ProgramAdi (string, required, max:100)
+- BaslangicTarihi (datetime)
+- BitisTarihi (datetime)
+- ProgramSaati (timespan)
+- AntrenorId (FK -> Antrenorler)
+- Aciklama (string, nullable)
+- Kategori (string, max:50)
+- MaxKatilimci (int, default:20)
+- KatilimciSayisi (int)
+- Durum (string, max:50)
+- AktifMi (boolean)
+- OlusturmaTarihi (datetime)
+
+e) ProgramKatilim Tablosu
+- KatilimId (PK, int)
+- ProgramId (FK -> SporProgramlari)
+- UyeId (FK -> Uyeler)
+- KatilimTarihi (datetime)
+- Durum (string)
+
+f) Ekipmanlar Tablosu
+- EkipmanId (PK, int)
+- EkipmanAdi (string)
+- Durum (string)
+- BakimTarihi (datetime)
+- SonKullanim (datetime)
+
+g) EkipmanKullanim Tablosu
+- KullanimId (PK, int)
+- EkipmanId (FK -> Ekipmanlar)
+- ProgramId (FK -> SporProgramlari)
+- BaslangicZamani (datetime)
+- BitisZamani (datetime)
+- Durum (string)
+
+5.3. İlişki Yapısı
+- Kullanıcı -> Üye/Antrenör (1:1 ilişki)
+- Antrenör -> SporProgramı (1:N ilişki)
+- SporProgramı -> ProgramKatilim (1:N ilişki)
+- Üye -> ProgramKatilim (1:N ilişki)
+- SporProgramı -> EkipmanKullanim (1:N ilişki)
+- Ekipman -> EkipmanKullanim (1:N ilişki)
+
+5.4. Veritabanı Özellikleri
+- Referential Integrity (İlişkisel bütünlük) koruması
+- Cascade Delete davranışları
+- İndekslenmiş anahtar alanlar
+- Nullable ve Required alan tanımlamaları
+- Veri doğrulama kuralları (Data Annotations)
+
+6. GÜVENLİK ÖZELLİKLERİ
+----------------------
+- ASP.NET Core Identity ile kullanıcı kimlik doğrulama
+- Rol tabanlı yetkilendirme
+- Form güvenliği (Anti-forgery token)
+- Güvenli parola politikaları
+
+7. KULLANICI ARAYÜZÜ
+------------------
+- Responsive tasarım
+- Bootstrap framework kullanımı
+- Kullanıcı dostu navigasyon
+- Role-specific dashboard'lar
+
+8. PROJE DOSYA YAPISI
+-------------------
+/SportCenter
+  ├── Controllers/     # MVC Controllers
+  ├── Models/          # Entity sınıfları
+  ├── Views/           # MVC Views
+  ├── ViewModels/      # View için özel model sınıfları
+  ├── Data/           # Veritabanı context ve repository'ler
+  ├── Infrastructure/ # Yardımcı sınıflar ve servisler
+  ├── wwwroot/        # Statik dosyalar (CSS, JS, images)
+  └── Migrations/     # Veritabanı migration dosyaları
+
+9. GELİŞTİRME ORTAMI
+------------------
+- Visual Studio/Rider IDE desteği
+- .NET Core SDK gerekliliği
+- Git versiyon kontrol sistemi
+
+10. SONUÇ
+--------
+Bu proje, modern bir spor merkezi yönetim sistemi olarak tasarlanmış olup, 
+üye yönetimi, program takibi ve ekipman yönetimi gibi temel işlevleri 
+başarıyla yerine getirmektedir. MVC mimarisi ve ASP.NET Core framework'ü 
+kullanılarak geliştirilmiş olması, projenin sürdürülebilirliğini ve 
+genişletilebilirliğini sağlamaktadır. 

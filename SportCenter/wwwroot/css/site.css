@@ -1,0 +1,244 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* Ana Site Özel Stilleri */
+
+/* GymLife tema düzeltmeleri - Navigation menüsü her zaman görünür olsun */
+.nav-menu {
+    position: relative !important;
+    display: block !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    float: none !important;
+    overflow: visible !important;
+}
+
+.nav-menu ul {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    transform: none !important;
+    position: relative !important;
+}
+
+.nav-menu ul li {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Completely remove slicknav menu */
+.slicknav_menu,
+.slicknav_nav,
+.offcanvas-menu-wrapper,
+.canvas-open {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* Force main nav to be visible */
+.header-section .nav-menu {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.header-section .nav-menu > ul {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+}
+
+.header-section .nav-menu > ul > li {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* Dropdown styling */
+.nav-menu ul li .dropdown {
+    position: absolute !important;
+    background: #151515 !important;
+    min-width: 180px !important;
+    z-index: 9999 !important;
+    padding: 5px 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.3s !important;
+    top: 100% !important;
+    left: 0 !important;
+    display: block !important;
+    flex-direction: column !important;
+}
+
+.nav-menu ul li:hover > .dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* Fix for vertical dropdown menu */
+.nav-menu ul li .dropdown li {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.nav-menu ul li .dropdown li:last-child {
+    border-bottom: none !important;
+}
+
+.nav-menu ul li .dropdown li a {
+    padding: 10px 20px !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+.nav-menu ul li .dropdown li a:hover {
+    color: #f36100 !important;
+    background-color: rgba(243, 97, 0, 0.05) !important;
+}
+
+/* Mobil menü düzeltmeleri */
+@media only screen and (max-width: 767px) {
+    .header-section .container-fluid {
+        padding: 0 15px;
+    }
+    
+    .nav-menu {
+        display: block !important;
+    }
+    
+    .offcanvas-menu-wrapper,
+    .canvas-open {
+        display: none !important;
+    }
+    
+    .header-section .container-fluid .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .nav-menu ul {
+        text-align: center;
+    }
+    
+    .nav-menu ul li {
+        display: inline-block !important;
+        margin-right: 10px;
+    }
+}
+
+/* Banner Section Fix */
+.banner-section {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    padding: 80px 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.banner-section:before {
+    position: absolute !important;
+    content: "" !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+    top: 0 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    z-index: -1 !important;
+}
+
+.banner-section .bs-text {
+    padding: 30px 0 !important;
+}
+
+.banner-section .bs-text h2 {
+    font-size: 48px !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 25px !important;
+}
+
+.banner-section .bs-text .bt-tips {
+    font-size: 20px !important;
+    color: #c4c4c4 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 25px !important;
+}
+
+.banner-section .bs-text .primary-btn {
+    background: #f36100 !important;
+    font-size: 14px !important;
+    padding: 14px 30px !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+}
+
+.banner-section .bs-text .primary-btn:hover {
+    background: #e25a03 !important;
+}
+
+/* Hero section fixes */
+.hero-section .hs-item {
+    height: 750px !important;
+    display: flex !important;
+    align-items: center !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}

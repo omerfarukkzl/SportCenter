@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Spor Salonu Yönetim Sistemi - Kullanıcı Hesabı">
+    <title>@ViewData["Title"] - Spor Salonu</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/templates/gymlife/css/flaticon.css">
+    <link rel="stylesheet" href="~/templates/gymlife/css/style.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <style>
+        /* Account özel stilleri */
+        .account-form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        .account-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #f36100;
+        }
+        .account-form .form-control {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        .account-form .btn-primary {
+            background: #f36100;
+            border: none;
+            height: 50px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .account-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .account-links a {
+            color: #f36100;
+        }
+        .simple-header {
+            padding: 20px 0;
+            background: #151515;
+        }
+        .simple-header .logo {
+            display: inline-block;
+        }
+        .simple-nav {
+            float: right;
+            padding-top: 15px;
+        }
+        .simple-nav a {
+            color: #fff;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+        .simple-nav a:hover {
+            color: #f36100;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Simple Header Begin -->
+    <header class="simple-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="logo">
+                        <a asp-controller="Home" asp-action="Index">
+                            <img src="~/templates/gymlife/img/logo.png" alt="Spor Salonu Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="simple-nav">
+                        <a asp-controller="Home" asp-action="Index">ANA SAYFA</a>
+                        <a asp-controller="Home" asp-action="About">HAKKIMIZDA</a>
+                        <a asp-controller="Home" asp-action="Contact">İLETİŞİM</a>
+                        <a asp-controller="Account" asp-action="Login">GİRİŞ YAP</a>
+                        <a asp-controller="Account" asp-action="Register">KAYDOL</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Simple Header End -->
+
+    <!-- Main Content Begin -->
+    <div class="main-content">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- Main Content End -->
+
+    <!-- Footer Section Begin -->
+    <section class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="fs-about">
+                        <div class="fa-logo">
+                            <a href="#"><img src="~/templates/gymlife/img/logo.png" alt=""></a>
+                        </div>
+                        <p>Sağlıklı bir yaşam için profesyonel ekibimiz ve modern ekipmanlarımızla hizmetinizdeyiz.</p>
+                        <div class="fa-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="fs-widget">
+                        <h4>Linkler</h4>
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="About">Hakkımızda</a></li>
+                            <li><a asp-controller="Home" asp-action="Contact">İletişim</a></li>
+                            <li><a asp-controller="Home" asp-action="Privacy">Gizlilik</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="fs-widget">
+                        <h4>Destek</h4>
+                        <ul>
+                            <li><a href="#">SSS</a></li>
+                            <li><a href="#">İletişim</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="fs-widget">
+                        <h4>İletişim Bilgileri</h4>
+                        <div class="fw-info">
+                            <ul>
+                                <li><i class="fa fa-phone"></i> (123) 456-78-90</li>
+                                <li><i class="fa fa-envelope"></i> info@sporsalonu.com</li>
+                                <li><i class="fa fa-map-marker"></i> İstanbul, Türkiye</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="copyright-text">
+                        <p>&copy; @DateTime.Now.Year Spor Salonu Yönetim Sistemi | Tüm Hakları Saklıdır</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> 

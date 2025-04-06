@@ -1,0 +1,32 @@
+@model SportCenter.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Giriş";
+    Layout = "_AccountLayout";
+}
+
+<div class="account-form">
+    <h2>Kullanıcı Girişi</h2>
+    
+    <form asp-action="Login" method="post">
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="Sifre">Şifre</label>
+            <input type="password" class="form-control" id="Sifre" name="Sifre" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Giriş Yap</button>
+    </form>
+    
+    <div class="account-links">
+        <p>Hesabınız yok mu? <a asp-controller="Account" asp-action="Register">Hemen Kaydolun</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

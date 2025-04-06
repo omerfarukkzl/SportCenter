@@ -1,0 +1,93 @@
+Spor Salonu Yönetim Sistemi Senaryosu
+Bir spor salonu, üyelerinin kayıtlarını, antrenörlerin bilgilerini, spor programlarını ve kullanılan ekipmanların takibini yapabilmek için bir web sistemi talep etmiştir. Bu sistemde, spor salonu yöneticileri, antrenörler ve üyeler farklı yetkilere sahip olacak şekilde tasarlanmalıdır.
+1.	Kullanıcı Yetkileri:
+o	Yönetici:
+	Tüm üyeleri, antrenörleri, spor programlarını ve ekipmanları yönetebilir.
+	Raporlar oluşturabilir ve sistem ayarlarını düzenleyebilir.
+o	Antrenör:
+	Kendisine atanan spor programlarını yönetebilir.
+	Programlara katılan üyeleri görüntüleyebilir ve katılım durumlarını güncelleyebilir.
+	Ekipman durumlarını görüntüleyebilir (ancak güncelleyemez).
+o	Üye:
+	Kendi bilgilerini görüntüleyebilir ve güncelleyebilir.
+	Katıldığı spor programlarını görüntüleyebilir.
+	Ekipman durumlarını görüntüleyebilir.
+2.	Üyeler:
+o	Her üyenin eşsiz bir üyelik numarası, adı, soyadı, telefon numarası, e-posta adresi ve kayıt tarihi bilgileri bulunur.
+o	Üyeler, spor salonuna bireysel veya grup halinde kayıt olabilir.
+o	Her üye, bir veya daha fazla spor programına katılabilir.
+3.	Antrenörler:
+o	Her antrenörün eşsiz bir çalışan numarası, adı, soyadı, uzmanlık alanı (örneğin, fitness, yoga, pilates) ve iletişim bilgileri bulunur.
+o	Bir antrenör, birden fazla spor programını yönetebilir.
+o	Her spor programı en az bir antrenör tarafından yönetilmelidir.
+4.	Spor Programları:
+o	Her spor programının eşsiz bir kodu, adı (örneğin, "Sabah Yoga", "Ağırlık Antrenmanı"), başlangıç tarihi, bitiş tarihi ve programın gerçekleşeceği saat bilgileri bulunur.
+o	Bir spor programı, birden fazla üye tarafından takip edilebilir.
+o	Her spor programı, en az bir antrenör tarafından yönetilmelidir.
+5.	Ekipmanlar:
+o	Her ekipmanın eşsiz bir kodu, adı (örneğin, "Dambıl Seti", "Koşu Bandı"), durumu (kullanılabilir/bakımda) ve spor salonundaki konumu bilgileri bulunur.
+o	Bir ekipman, birden fazla spor programında kullanılabilir.
+o	Her ekipman, spor salonunda bulunmalıdır ve durumu takip edilmelidir.
+
+
+
+
+Senaryo Akışı:
+1.	Yönetici:
+o	Sisteme yeni bir antrenör veya üye ekler.
+o	Yeni bir spor programı oluşturur ve bu programa bir antrenör atar.
+o	Ekipmanların durumunu günceller.
+o	Raporlar oluşturur (örneğin, en çok katılım olan programlar, ekipman kullanım istatistikleri).
+2.	Antrenör:
+o	Kendisine atanan spor programlarını görüntüler.
+o	Programlara katılan üyeleri görüntüler ve katılım durumlarını günceller.
+o	Ekipman durumlarını görüntüler (ancak güncelleyemez).
+3.	Üye:
+o	Sisteme kayıt olur.
+o	Kendi bilgilerini görüntüler ve günceller.
+o	Katılmak istediği spor programına kayıt yapar.
+o	Katıldığı programları ve ekipman durumlarını görüntüler.
+
+
+
+Veritabanı Tasarımı (Temel Tablolar):
+1.	Kullanıcılar Tablosu:
+o	kullanici_id (PK)
+o	kullanici_tipi (Yönetici, Antrenör, Üye)
+o	ad
+o	soyad
+o	email
+o	sifre
+o	kayit_tarihi
+2.	Üyeler Tablosu:
+o	uye_id (PK)
+o	kullanici_id (FK)
+o	telefon
+o	adres
+3.	Antrenörler Tablosu:
+o	antrenor_id (PK)
+o	kullanici_id (FK)
+o	uzmanlik_alani
+o	iletisim_bilgisi
+4.	Spor Programları Tablosu:
+o	program_id (PK)
+o	program_adi
+o	baslangic_tarihi
+o	bitis_tarihi
+o	saat
+o	antrenor_id (FK)
+5.	Ekipmanlar Tablosu:
+o	ekipman_id (PK)
+o	ekipman_adi
+o	durum
+o	konum
+6.	Program Katılımları Tablosu:
+o	katilim_id (PK)
+o	uye_id (FK)
+o	program_id (FK)
+7.	Ekipman Kullanımları Tablosu:
+o	kullanım_id (PK)
+o	program_id (FK)
+o	ekipman_id (FK)
+
+

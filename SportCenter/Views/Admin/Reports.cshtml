@@ -1,0 +1,150 @@
+@model SportCenter.ViewModels.ReportsViewModel
+@{
+    ViewData["Title"] = "Raporlar";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h4>Spor Merkezi Raporları</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h6>En Çok Katılım Gösteren Üyeler</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Üye</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Katılım Sayısı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var uye in Model.EnCokKatilanUyeler)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@uye.UyeAdi</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@uye.KatilimSayisi</span>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!Model.EnCokKatilanUyeler.Any())
+                                {
+                                    <tr>
+                                        <td colspan="2" class="text-center">Henüz kayıt bulunamadı</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h6>En Popüler Programlar</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Katılım Sayısı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var program in Model.EnPopulerProgramlar)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@program.ProgramAdi</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@program.KatilimSayisi</span>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!Model.EnPopulerProgramlar.Any())
+                                {
+                                    <tr>
+                                        <td colspan="2" class="text-center">Henüz kayıt bulunamadı</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Antrenör Program İstatistikleri</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Antrenör</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program Sayısı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var antrenor in Model.AntrenorIstatistikleri)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@antrenor.AntrenorAdi</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@antrenor.ProgramSayisi</span>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!Model.AntrenorIstatistikleri.Any())
+                                {
+                                    <tr>
+                                        <td colspan="2" class="text-center">Henüz kayıt bulunamadı</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

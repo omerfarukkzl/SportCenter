@@ -1,0 +1,67 @@
+@model SportCenter.Models.Ekipman
+@{
+    ViewData["Title"] = "Ekipman Ekle";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h4>Yeni Ekipman Ekle</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="AddEquipment" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="EkipmanAdi" class="form-control-label"></label>
+                                    <input asp-for="EkipmanAdi" class="form-control" />
+                                    <span asp-validation-for="EkipmanAdi" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Konum" class="form-control-label"></label>
+                                    <input asp-for="Konum" class="form-control" />
+                                    <span asp-validation-for="Konum" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Durum" class="form-control-label"></label>
+                                    <select asp-for="Durum" class="form-control" asp-items="Html.GetEnumSelectList<EkipmanDurumu>()"></select>
+                                    <span asp-validation-for="Durum" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="AlimTarihi" class="form-control-label"></label>
+                                    <input asp-for="AlimTarihi" class="form-control" type="date" />
+                                    <span asp-validation-for="AlimTarihi" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Aciklama" class="form-control-label"></label>
+                            <textarea asp-for="Aciklama" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Aciklama" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 text-end">
+                            <a asp-action="Equipment" class="btn btn-secondary me-2">İptal</a>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

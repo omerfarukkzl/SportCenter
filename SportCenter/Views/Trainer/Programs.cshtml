@@ -1,0 +1,523 @@
+@model List<SportCenter.Models.SporProgrami>
+@{
+    ViewData["Title"] = "Programlarım";
+    
+    Layout = "_TrainerLayout";
+}
+
+
+
+
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Programlarım</h1>
+        <button type="button" class="btn btn-trainer" data-bs-toggle="modal" data-bs-target="#requestProgramModal">
+            <i class="bi bi-plus-circle"></i> Program Talebi Oluştur
+        </button>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card trainer-card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="mb-0">Program Listesi</h5>
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" id="searchProgram" class="form-control" placeholder="Program ara...">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <ul class="nav nav-tabs mb-3" id="programTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="active-programs-tab" data-bs-toggle="tab" data-bs-target="#active-programs" type="button" role="tab" aria-controls="active-programs" aria-selected="true">Aktif Programlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="completed-programs-tab" data-bs-toggle="tab" data-bs-target="#completed-programs" type="button" role="tab" aria-controls="completed-programs" aria-selected="false">Tamamlanan Programlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pending-programs-tab" data-bs-toggle="tab" data-bs-target="#pending-programs" type="button" role="tab" aria-controls="pending-programs" aria-selected="false">Bekleyen Talepler</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="programTabsContent">
+                <!-- Aktif Programlar -->
+                <div class="tab-pane fade show active" id="active-programs" role="tabpanel" aria-labelledby="active-programs-tab">
+                    @if (Model.Any(p => p.Durum == "Aktif"))
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="activeProgramsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Program</th>
+                                        <th>Açıklama</th>
+                                        <th>Başlangıç</th>
+                                        <th>Bitiş</th>
+                                        <th>Saat</th>
+                                        <th>Katılımcı</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var program in Model.Where(p => p.Durum == "Aktif"))
+                                    {
+                                        <tr>
+                                            <td>@program.ProgramAdi</td>
+                                            <td>@(program.Aciklama?.Length > 30 ? program.Aciklama.Substring(0, 30) + "..." : program.Aciklama)</td>
+                                            <td>@program.BaslangicTarihi.ToString("dd.MM.yyyy")</td>
+                                            <td>@program.BitisTarihi.ToString("dd.MM.yyyy")</td>
+                                            <td>@program.Saat</td>
+                                            <td><span class="badge bg-info">@program.KatilimciSayisi</span></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-info edit-program" 
+                                                            data-id="@program.ProgramId"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#editProgramModal">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-primary view-program-details" 
+                                                            data-id="@program.ProgramId"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#programDetailsModal">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-success complete-program" 
+                                                            data-id="@program.ProgramId"
+                                                            data-name="@program.ProgramAdi"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#completeProgramModal">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            Aktif program bulunmamaktadır.
+                        </div>
+                    }
+                </div>
+                
+                <!-- Tamamlanan Programlar -->
+                <div class="tab-pane fade" id="completed-programs" role="tabpanel" aria-labelledby="completed-programs-tab">
+                    @if (Model.Any(p => p.Durum == "Tamamlandı"))
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="completedProgramsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Program</th>
+                                        <th>Açıklama</th>
+                                        <th>Başlangıç</th>
+                                        <th>Bitiş</th>
+                                        <th>Saat</th>
+                                        <th>Katılımcı</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var program in Model.Where(p => p.Durum == "Tamamlandı"))
+                                    {
+                                        <tr>
+                                            <td>@program.ProgramAdi</td>
+                                            <td>@(program.Aciklama?.Length > 30 ? program.Aciklama.Substring(0, 30) + "..." : program.Aciklama)</td>
+                                            <td>@program.BaslangicTarihi.ToString("dd.MM.yyyy")</td>
+                                            <td>@program.BitisTarihi.ToString("dd.MM.yyyy")</td>
+                                            <td>@program.Saat</td>
+                                            <td><span class="badge bg-info">@program.KatilimciSayisi</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-primary view-program-details" 
+                                                        data-id="@program.ProgramId"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#programDetailsModal">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            Tamamlanan program bulunmamaktadır.
+                        </div>
+                    }
+                </div>
+                
+                <!-- Bekleyen Talepler -->
+                <div class="tab-pane fade" id="pending-programs" role="tabpanel" aria-labelledby="pending-programs-tab">
+                    @if (Model.Any(p => p.Durum == "Beklemede"))
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="pendingProgramsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Program</th>
+                                        <th>Açıklama</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var program in Model.Where(p => p.Durum == "Beklemede"))
+                                    {
+                                        <tr>
+                                            <td>@program.ProgramAdi</td>
+                                            <td>@(program.Aciklama?.Length > 30 ? program.Aciklama.Substring(0, 30) + "..." : program.Aciklama)</td>
+                                            <td>@program.OlusturmaTarihi.ToString("dd/MM/yyyy")</td>
+                                            <td><span class="badge bg-warning">Beklemede</span></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-info edit-program-request" 
+                                                            data-id="@program.ProgramId"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#editProgramRequestModal">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger cancel-program-request" 
+                                                            data-id="@program.ProgramId"
+                                                            data-name="@program.ProgramAdi"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#cancelProgramRequestModal">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            Bekleyen program talebi bulunmamaktadır.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Program Talebi Oluşturma Modal -->
+<div class="modal fade" id="requestProgramModal" tabindex="-1" aria-labelledby="requestProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestProgramModalLabel">Program Talebi Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="RequestProgram" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="ProgramAdi" class="form-label">Program Adı</label>
+                        <input type="text" class="form-control" id="ProgramAdi" name="ProgramAdi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Aciklama" class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="Aciklama" name="Aciklama" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="MaxKatilimci" class="form-label">Maksimum Katılımcı Sayısı</label>
+                        <input type="number" class="form-control" id="MaxKatilimci" name="MaxKatilimci" min="1" value="10">
+                    </div>
+                    <div class="mb-3">
+                        <label for="TalepEdilenTarih" class="form-label">Talep Edilen Başlangıç Tarihi</label>
+                        <input type="date" class="form-control" id="TalepEdilenTarih" name="TalepEdilenTarih" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="TalepEdilenSaat" class="form-label">Talep Edilen Saat</label>
+                        <input type="time" class="form-control" id="TalepEdilenSaat" name="TalepEdilenSaat" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="TalepEdilenSure" class="form-label">Talep Edilen Program Süresi (Hafta)</label>
+                        <input type="number" class="form-control" id="TalepEdilenSure" name="TalepEdilenSure" min="1" value="4">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Notlar" class="form-label">Ek Notlar</label>
+                        <textarea class="form-control" id="Notlar" name="Notlar" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Talep Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Program Düzenleme Modal -->
+<div class="modal fade" id="editProgramModal" tabindex="-1" aria-labelledby="editProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProgramModalLabel">Program Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="EditProgram" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editProgramId" name="ProgramId">
+                    <div class="mb-3">
+                        <label for="editProgramAdi" class="form-label">Program Adı</label>
+                        <input type="text" class="form-control" id="editProgramAdi" name="ProgramAdi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAciklama" class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="editAciklama" name="Aciklama" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBaslangicTarihi" class="form-label">Başlangıç Tarihi</label>
+                        <input type="date" class="form-control" id="editBaslangicTarihi" name="BaslangicTarihi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBitisTarihi" class="form-label">Bitiş Tarihi</label>
+                        <input type="date" class="form-control" id="editBitisTarihi" name="BitisTarihi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSaat" class="form-label">Saat</label>
+                        <input type="time" class="form-control" id="editSaat" name="Saat" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMaxKatilimci" class="form-label">Maksimum Katılımcı Sayısı</label>
+                        <input type="number" class="form-control" id="editMaxKatilimci" name="MaxKatilimci" min="1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Program Detay Modal -->
+<div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="programDetailsModalLabel">Program Detayları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="programDetailContent">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Program Tamamlama Modal -->
+<div class="modal fade" id="completeProgramModal" tabindex="-1" aria-labelledby="completeProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="completeProgramModalLabel">Programı Tamamla</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="CompleteProgram" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="completeProgramId" name="ProgramId">
+                    <p>
+                        <span id="completeProgramName"></span> adlı programı tamamlamak istediğinize emin misiniz?
+                    </p>
+                    <div class="mb-3">
+                        <label for="ProgramNotu" class="form-label">Program Tamamlama Notu</label>
+                        <textarea class="form-control" id="ProgramNotu" name="ProgramNotu" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-success">Tamamla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Program Talebi Düzenleme Modal -->
+<div class="modal fade" id="editProgramRequestModal" tabindex="-1" aria-labelledby="editProgramRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProgramRequestModalLabel">Program Talebini Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="EditProgramRequest" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editRequestId" name="ProgramId">
+                    <div class="mb-3">
+                        <label for="editRequestProgramAdi" class="form-label">Program Adı</label>
+                        <input type="text" class="form-control" id="editRequestProgramAdi" name="ProgramAdi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestAciklama" class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="editRequestAciklama" name="Aciklama" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestMaxKatilimci" class="form-label">Maksimum Katılımcı Sayısı</label>
+                        <input type="number" class="form-control" id="editRequestMaxKatilimci" name="MaxKatilimci" min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestTalepEdilenTarih" class="form-label">Talep Edilen Başlangıç Tarihi</label>
+                        <input type="date" class="form-control" id="editRequestTalepEdilenTarih" name="TalepEdilenTarih" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestTalepEdilenSaat" class="form-label">Talep Edilen Saat</label>
+                        <input type="time" class="form-control" id="editRequestTalepEdilenSaat" name="TalepEdilenSaat" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestTalepEdilenSure" class="form-label">Talep Edilen Program Süresi (Hafta)</label>
+                        <input type="number" class="form-control" id="editRequestTalepEdilenSure" name="TalepEdilenSure" min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRequestNotlar" class="form-label">Ek Notlar</label>
+                        <textarea class="form-control" id="editRequestNotlar" name="Notlar" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Program Talebi İptal Modal -->
+<div class="modal fade" id="cancelProgramRequestModal" tabindex="-1" aria-labelledby="cancelProgramRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelProgramRequestModalLabel">Program Talebini İptal Et</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="CancelProgramRequest" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="cancelRequestId" name="ProgramId">
+                    <p>
+                        <span id="cancelRequestName"></span> adlı program talebini iptal etmek istediğinize emin misiniz?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                    <button type="submit" class="btn btn-danger">İptal Et</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Program arama
+            $("#searchProgram").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#activeProgramsTable tbody tr, #completedProgramsTable tbody tr, #pendingProgramsTable tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            // Program düzenleme için veri doldurma
+            $('.edit-program').click(function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("GetProgram", "Trainer")/' + id,
+                    type: 'GET',
+                    success: function (program) {
+                        $('#editProgramId').val(program.programId);
+                        $('#editProgramAdi').val(program.programAdi);
+                        $('#editAciklama').val(program.aciklama);
+                        $('#editBaslangicTarihi').val(program.baslangicTarihi.split('T')[0]);
+                        $('#editBitisTarihi').val(program.bitisTarihi.split('T')[0]);
+                        $('#editSaat').val(program.saat);
+                        $('#editMaxKatilimci').val(program.maxKatilimci);
+                    }
+                });
+            });
+
+            // Program talebi düzenleme için veri doldurma
+            $('.edit-program-request').click(function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '@Url.Action("GetProgramRequest", "Trainer")/' + id,
+                    type: 'GET',
+                    success: function (request) {
+                        $('#editRequestId').val(request.programId);
+                        $('#editRequestProgramAdi').val(request.programAdi);
+                        $('#editRequestAciklama').val(request.aciklama);
+                        $('#editRequestMaxKatilimci').val(request.maxKatilimci);
+                        $('#editRequestTalepEdilenTarih').val(request.talepEdilenTarih.split('T')[0]);
+                        $('#editRequestTalepEdilenSaat').val(request.talepEdilenSaat);
+                        $('#editRequestTalepEdilenSure').val(request.talepEdilenSure);
+                        $('#editRequestNotlar').val(request.notlar);
+                    }
+                });
+            });
+
+            // Program detayı için veri yükleme
+            $('.view-program-details').click(function () {
+                var id = $(this).data('id');
+                $('#programDetailContent').html('<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Yükleniyor...</span></div></div>');
+                
+                $.ajax({
+                    url: '@Url.Action("ProgramDetails", "Trainer")/' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#programDetailContent').html(data);
+                    },
+                    error: function () {
+                        $('#programDetailContent').html('<div class="alert alert-danger">Veriler yüklenirken bir hata oluştu.</div>');
+                    }
+                });
+            });
+
+            // Program tamamlama için veri doldurma
+            $('.complete-program').click(function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#completeProgramId').val(id);
+                $('#completeProgramName').text(name);
+            });
+
+            // Program talebi iptal için veri doldurma
+            $('.cancel-program-request').click(function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#cancelRequestId').val(id);
+                $('#cancelRequestName').text(name);
+            });
+        });
+    </script>
+} 

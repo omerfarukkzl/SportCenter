@@ -1,0 +1,96 @@
+@model IEnumerable<SportCenter.Models.SporProgrami>
+@{
+    ViewData["Title"] = "Program Yönetimi";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <h4>Program Yönetimi</h4>
+                    <a href="@Url.Action("AddProgram", "Admin")" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Yeni Program Ekle
+                    </a>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Program</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Antrenör</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarih Aralığı</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Saat</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Durum</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@item.ProgramAdi</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">@item.Antrenor.Kullanici.Ad @item.Antrenor.Kullanici.Soyad</p>
+                                            <p class="text-xs text-secondary mb-0">@item.Antrenor.UzmanlikAlani</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold">
+                                                @item.BaslangicTarihi.ToShortDateString() - @item.BitisTarihi.ToShortDateString()
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.ProgramSaati.ToString(@"hh\:mm")</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="badge badge-sm bg-gradient-@(item.AktifMi ? "success" : "secondary")">
+                                                @(item.AktifMi ? "Aktif" : "Pasif")
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="@Url.Action("EditProgram", "Admin", new { id = item.ProgramId })" class="text-secondary font-weight-bold text-xs me-3" data-toggle="tooltip" data-original-title="Düzenle">
+                                                <i class="fas fa-edit text-info me-1"></i> Düzenle
+                                            </a>
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.ProgramId">
+                                                <i class="fas fa-trash text-danger me-1"></i> Sil
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteModal-@item.ProgramId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-@item.ProgramId" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-@item.ProgramId">Program Silme</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>"@item.ProgramAdi" isimli programı silmek istediğinize emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                    <form asp-action="DeleteProgram" asp-route-id="@item.ProgramId" method="post">
+                                                        <button type="submit" class="btn btn-danger">Programı Sil</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

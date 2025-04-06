@@ -1,0 +1,100 @@
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="text-center mb-5">İletişim</h1>
+
+                <div class="row mb-5">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="card border-0 shadow h-100">
+                            <div class="card-body p-4">
+                                <h3 class="h5 mb-4">İletişim Bilgileri</h3>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-flex mb-3">
+                                        <span class="me-3"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                                        <span>Atatürk Caddesi No: 123<br />Merkez / İzmir</span>
+                                    </li>
+                                    <li class="d-flex mb-3">
+                                        <span class="me-3"><i class="fas fa-phone-alt text-primary"></i></span>
+                                        <span>(0232) 123 45 67</span>
+                                    </li>
+                                    <li class="d-flex mb-3">
+                                        <span class="me-3"><i class="fas fa-mobile-alt text-primary"></i></span>
+                                        <span>0555 123 45 67</span>
+                                    </li>
+                                    <li class="d-flex mb-3">
+                                        <span class="me-3"><i class="fas fa-envelope text-primary"></i></span>
+                                        <span>info@sportcenter.com</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow h-100">
+                            <div class="card-body p-4">
+                                <h3 class="h5 mb-4">Çalışma Saatleri</h3>
+                                <ul class="list-unstyled">
+                                    <li class="d-flex justify-content-between mb-3">
+                                        <span><strong>Pazartesi - Cuma:</strong></span>
+                                        <span>07:00 - 23:00</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between mb-3">
+                                        <span><strong>Cumartesi:</strong></span>
+                                        <span>08:00 - 22:00</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <span><strong>Pazar:</strong></span>
+                                        <span>09:00 - 20:00</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow mb-5">
+                    <div class="card-body p-5">
+                        <h3 class="h4 mb-4">Bize Ulaşın</h3>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Adınız Soyadınız</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Adınız Soyadınız" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">E-posta Adresiniz</label>
+                                    <input type="email" class="form-control" id="email" placeholder="E-posta Adresiniz" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Konu</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Konu" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Mesajınız</label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Mesajınız" required></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Gönder</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow">
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d197.68443071214976!2d27.135981900000003!3d38.424497800000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd862a762cacd%3A0x628cbba1a59ce8fe!2zS29uYWsvxLB6bWly!5e0!3m2!1str!2str!4v1711539200276!5m2!1str!2str" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

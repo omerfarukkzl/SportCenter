@@ -1,0 +1,232 @@
+@model List<SportCenter.Models.SporProgrami>
+@{
+    ViewData["Title"] = "Spor Programları";
+}
+
+    
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card member-card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5 class="mb-0">Mevcut Programlar</h5>
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" id="searchProgram" class="form-control" placeholder="Program ara...">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active filter-btn" data-filter="all">Tümü</button>
+                        <button type="button" class="btn btn-outline-primary filter-btn" data-filter="fitness">Fitness</button>
+                        <button type="button" class="btn btn-outline-primary filter-btn" data-filter="pilates">Pilates</button>
+                        <button type="button" class="btn btn-outline-primary filter-btn" data-filter="yoga">Yoga</button>
+                        <button type="button" class="btn btn-outline-primary filter-btn" data-filter="zumba">Zumba</button>
+                        <button type="button" class="btn btn-outline-primary filter-btn" data-filter="other">Diğer</button>
+                    </div>
+                </div>
+            </div>
+            
+            @if (Model.Any())
+            {
+                <div class="row" id="programCards">
+                    @foreach (var program in Model)
+                    {
+                        string kategori = program.Kategori?.ToLower() ?? "other";
+                        string katilimDurumu = "";
+                        bool katilabilir = true;
+                        
+                        if (ViewBag.KatildigimProgramlar != null && ViewBag.KatildigimProgramlar.Contains(program.ProgramId))
+                        {
+                            katilimDurumu = "<span class='badge bg-success'>Katıldınız</span>";
+                            katilabilir = false;
+                        }
+                        else if (program.KatilimciSayisi >= program.MaxKatilimci)
+                        {
+                            katilimDurumu = "<span class='badge bg-danger'>Dolu</span>";
+                            katilabilir = false;
+                        }
+                        
+                        <div class="col-md-4 mb-4 program-card" data-category="@kategori">
+                            <div class="card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">@program.ProgramAdi</h5>
+                                    @Html.Raw(katilimDurumu)
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <i class="bi bi-calendar3"></i> @program.BaslangicTarihi.ToString("dd.MM.yyyy") - @program.BitisTarihi.ToString("dd.MM.yyyy")
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-clock"></i> @program.Saat
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-person-badge"></i> 
+                                        @if (program.Antrenor != null)
+                                        {
+                                            @program.Antrenor.AdSoyad
+                                        }
+                                        else
+                                        {
+                                            <span>Antrenör atanmadı</span>
+                                        }
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-people"></i> @program.KatilimciSayisi / @program.MaxKatilimci
+                                    </p>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: @(program.KatilimciSayisi * 100 / program.MaxKatilimci)%" 
+                                             aria-valuenow="@program.KatilimciSayisi" aria-valuemin="0" aria-valuemax="@program.MaxKatilimci"></div>
+                                    </div>
+                                    <p class="card-text">@(program.Aciklama?.Length > 100 ? program.Aciklama.Substring(0, 100) + "..." : program.Aciklama)</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-sm btn-outline-primary view-program-details" 
+                                            data-id="@program.ProgramId"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#programDetailsModal">
+                                        Detaylar
+                                    </button>
+                                    
+                                    @if (katilabilir)
+                                    {
+                                        <button type="button" class="btn btn-sm btn-member join-program" 
+                                                data-id="@program.ProgramId" 
+                                                data-name="@program.ProgramAdi"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#joinProgramModal">
+                                            Katıl
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Şu anda mevcut program bulunmamaktadır.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Program Detay Modal -->
+<div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="programDetailsModalLabel">Program Detayları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="programDetailContent">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Programa Katılma Modal -->
+<div class="modal fade" id="joinProgramModal" tabindex="-1" aria-labelledby="joinProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="joinProgramModalLabel">Programa Katıl</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="JoinProgram" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="joinProgramId" name="ProgramId">
+                    <p>
+                        <span id="joinProgramName"></span> programına katılmak istediğinize emin misiniz?
+                    </p>
+                    <div class="mb-3">
+                        <label for="NotlarVeHedefler" class="form-label">Notlarınız ve Hedefleriniz (İsteğe bağlı)</label>
+                        <textarea class="form-control" id="NotlarVeHedefler" name="NotlarVeHedefler" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-success">Katıl</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Program arama
+            $("#searchProgram").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#programCards .program-card").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            // Program kategorileri filtreleme
+            $(".filter-btn").click(function() {
+                var filter = $(this).data('filter');
+                
+                // Aktif buton değiştir
+                $(".filter-btn").removeClass('active');
+                $(this).addClass('active');
+                
+                if (filter === 'all') {
+                    $("#programCards .program-card").show();
+                } else {
+                    $("#programCards .program-card").hide();
+                    $("#programCards .program-card[data-category='" + filter + "']").show();
+                }
+            });
+
+            // Program detayı için veri yükleme
+            $('.view-program-details').click(function () {
+                var id = $(this).data('id');
+                $('#programDetailContent').html('<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Yükleniyor...</span></div></div>');
+                
+                $.ajax({
+                    url: '@Url.Action("ProgramDetails", "Member")/' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#programDetailContent').html(data);
+                    },
+                    error: function () {
+                        $('#programDetailContent').html('<div class="alert alert-danger">Veriler yüklenirken bir hata oluştu.</div>');
+                    }
+                });
+            });
+
+            // Programa katılma için veri doldurma
+            $('.join-program').click(function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#joinProgramId').val(id);
+                $('#joinProgramName').text(name);
+            });
+        });
+    </script>
+} 

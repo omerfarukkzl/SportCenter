@@ -1,0 +1,159 @@
+/* Antrenör Panel Özel Stil */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-dark.bg-success {
+    background-color: #28a745 !important;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #28a745;
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.trainer-icon {
+    font-size: 1.2rem;
+    margin-right: 5px;
+}
+
+.trainer-dashboard-card {
+    transition: all 0.3s ease;
+}
+
+.trainer-dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.trainer-stats {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.btn-trainer {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.btn-trainer:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    color: white;
+}
+
+.footer {
+    background-color: #343a40 !important;
+}
+
+/* Antrenör Panel özel stilleri */
+.header-section {
+    background: #151515;
+    position: relative;
+    padding: 20px 0;
+}
+
+.nav-menu {
+    position: relative;
+    display: block !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+.nav-menu ul li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 36px;
+    position: relative;
+}
+
+.nav-menu ul li a {
+    font-size: 16px;
+    color: #ffffff;
+    display: block;
+    padding: 0 5px;
+    position: relative;
+}
+
+.nav-menu ul li a:hover {
+    color: #f36100;
+}
+
+.nav-menu ul li .dropdown {
+    position: absolute;
+    width: 200px;
+    background-color: #222;
+    z-index: 99;
+    padding: 5px 0;
+    text-align: left;
+    top: 100%;
+    left: 0;
+    display: block !important;
+    flex-direction: column !important;
+}
+
+.nav-menu ul li:hover .dropdown {
+    display: block;
+}
+
+.nav-menu ul li .dropdown li {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu ul li .dropdown li:last-child {
+    border-bottom: none;
+}
+
+.nav-menu ul li .dropdown li a {
+    padding: 10px 20px;
+    color: #ffffff;
+    font-size: 14px;
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.nav-menu ul li .dropdown li a:hover {
+    color: #f36100;
+    background-color: rgba(243, 97, 0, 0.05);
+}
+
+/* Username highlight */
+.nav-menu ul li a.username {
+    color: #f36100;
+    font-weight: bold;
+}
+
+/* Logout button */
+.nav-menu ul li .dropdown li a.logout {
+    color: #ff3b3b;
+}
+
+.nav-menu ul li .dropdown li a.logout:hover {
+    color: #ff3b3b;
+    background-color: rgba(255, 59, 59, 0.1);
+}
+
+/* Logo boyutu düzenleme */
+.logo img {
+    max-height: 50px;
+    width: auto;
+} 

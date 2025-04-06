@@ -1,0 +1,110 @@
+@{
+    ViewData["Title"] = "Antrenör Dashboard";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4">Antrenör Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card trainer-dashboard-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="trainer-icon bi bi-calendar-event"></i> Programlarım</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="trainer-stats">@ViewBag.ProgramCount</div>
+                    <p>Toplam Program</p>
+                    <a asp-action="Programs" class="btn btn-trainer mt-2">Tüm Programlarım</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card trainer-dashboard-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="trainer-icon bi bi-person-heart"></i> Üyelerim</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="trainer-stats">@ViewBag.MemberCount</div>
+                    <p>Toplam Üye</p>
+                    <a asp-action="Members" class="btn btn-trainer mt-2">Tüm Üyelerim</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card trainer-dashboard-card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="trainer-icon bi bi-calendar3"></i> Yaklaşan Programlarım</h5>
+        </div>
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Program Adı</th>
+                                <th>Başlangıç Tarihi</th>
+                                <th>Bitiş Tarihi</th>
+                                <th>Saat</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var program in Model)
+                            {
+                                <tr>
+                                    <td>@program.ProgramAdi</td>
+                                    <td>@program.BaslangicTarihi.ToString("dd.MM.yyyy")</td>
+                                    <td>@program.BitisTarihi.ToString("dd.MM.yyyy")</td>
+                                    <td>@program.Saat</td>
+                                    <td>
+                                        <a asp-action="ProgramDetails" asp-route-id="@program.ProgramId" class="btn btn-sm btn-outline-success">Detaylar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Henüz programınız bulunmamaktadır. Yönetici tarafından program atanmasını bekleyiniz.
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card trainer-dashboard-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="trainer-icon bi bi-tools"></i> Ekipmanlar</h5>
+                </div>
+                <div class="card-body">
+                    <p>Programlarınızda kullanabileceğiniz ekipmanları görüntüleyin.</p>
+                    <a asp-action="Equipment" class="btn btn-trainer">Ekipmanları Görüntüle</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card trainer-dashboard-card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="trainer-icon bi bi-calendar-week"></i> Program Takvimi</h5>
+                </div>
+                <div class="card-body">
+                    <p>Haftalık program takviminizi görüntüleyin ve düzenleyin.</p>
+                    <a asp-action="Schedule" class="btn btn-trainer">Takvime Git</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Bootstrap icons ekliyoruz -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+} 

@@ -1,0 +1,84 @@
+@model IEnumerable<SportCenter.Models.Kullanici>
+
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <h4>Kullanıcı Yönetimi</h4>
+                    <a href="@Url.Action("AddUser", "Admin")" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-2"></i>Yeni Kullanıcı Ekle
+                    </a>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kullanıcı</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kayıt Tarihi</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@item.Ad @item.Soyad</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">@item.Email</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.KayitTarihi.ToShortDateString()</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="@Url.Action("EditUser", "Admin", new { id = item.KullaniciId })" class="text-secondary font-weight-bold text-xs me-3" data-toggle="tooltip" data-original-title="Düzenle">
+                                                <i class="fas fa-edit text-info me-1"></i> Düzenle
+                                            </a>
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.KullaniciId">
+                                                <i class="fas fa-trash text-danger me-1"></i> Sil
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteModal-@item.KullaniciId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-@item.KullaniciId" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-@item.KullaniciId">Kullanıcı Silme</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>@item.Ad @item.Soyad isimli kullanıcıyı silmek istediğinize emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                    <form asp-action="DeleteUser" asp-route-id="@item.KullaniciId" method="post">
+                                                        <button type="submit" class="btn btn-danger">Kullanıcıyı Sil</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

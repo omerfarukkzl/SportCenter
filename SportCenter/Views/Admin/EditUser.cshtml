@@ -1,0 +1,68 @@
+@model SportCenter.ViewModels.EditUserViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h4>Kullanıcı Bilgilerini Düzenle</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditUser" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="KullaniciId" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Ad" class="form-control-label"></label>
+                                    <input asp-for="Ad" class="form-control" />
+                                    <span asp-validation-for="Ad" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Soyad" class="form-control-label"></label>
+                                    <input asp-for="Soyad" class="form-control" />
+                                    <span asp-validation-for="Soyad" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="form-control-label"></label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Telefon" class="form-control-label"></label>
+                                    <input asp-for="Telefon" class="form-control" />
+                                    <span asp-validation-for="Telefon" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Adres" class="form-control-label"></label>
+                            <textarea asp-for="Adres" class="form-control"></textarea>
+                            <span asp-validation-for="Adres" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 text-end">
+                            <a asp-action="Users" class="btn btn-secondary me-2">İptal</a>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
